@@ -34,3 +34,4 @@ class TokensClass:
     FECHAPAR = (26, ')')
     ABRECH = (27, '{')
     FECHACH = (28, '}')
+    FIMARQ = (29, '$')
