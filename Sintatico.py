@@ -4,7 +4,7 @@ import Token
 import TokensClass
 import Lexico
 class Sintatico:
-    # teste
+    # teste 3
     def __init__(self):
         self.analisadorLexico = Lexico.Lexico
         self.tokenAtual = None
