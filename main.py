@@ -17,7 +17,8 @@ import Lexico
 # Realiza os passos de analises (lexica, sintatica, semantica)
 def blocoPrincipal(codeFile):
     lexico = Lexico.Lexico(codeFile)
-    lexico.analisaArquivo()
+    listTokens = lexico.analisaArquivo()
+    #print(listTokens)
 
 if __name__ == "__main__":
     # Pega todos os parametros informados por linha de comando

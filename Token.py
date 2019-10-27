@@ -11,3 +11,5 @@ class Token:
     def __init__(self, tipo, lexema):
         self.tipo = tipo
         self.lexema = lexema
+        self.const = tipo[0]
+        self.msg = tipo[1]
