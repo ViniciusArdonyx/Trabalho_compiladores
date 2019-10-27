@@ -8,8 +8,9 @@
 class Token:
 
     # Construtor
-    def __init__(self, tipo, lexema):
+    def __init__(self, tipo, lexema, linha):
         self.tipo = tipo
         self.lexema = lexema
+        self.linha = linha
         self.const = tipo[0]
         self.msg = tipo[1]

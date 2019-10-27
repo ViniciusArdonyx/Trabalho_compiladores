@@ -31,7 +31,7 @@ class Lexico:
         self.buffer = ''
         self.arquivo = Archive.Archive(nomeArquivo)
     
-    def getChar(self, arq):
+    def getChar(self, arq, linha):
         carct = None
 
         if(not(arq is None)):
@@ -42,24 +42,27 @@ class Lexico:
             else:
                 # Quando o buffer nao tem mais informacoes, busca do arquivo fonte
                 carct = arq.read(1)
+
+                if(carct == '\n'):
+                    linha += 1
             
-        return carct
+        return (carct, linha)
 
     def ungetChar(self, carct):
         if(not (carct is None)):
             self.buffer += carct
     
-    def getToken(self, arq):
+    def getToken(self, arq, linha):
         lexema = ''
         carct = None
         estado = 1
 
         while(True):
             if(estado == 1): # Estado de identificacao do caracter
-                carct = self.getChar(arq)
+                (carct, linha) = self.getChar(arq, linha)
 
                 if((carct is None) or (carct == '')):
-                    return Token.Token(TokensClass.TokensClass.FIMARQ, '$')
+                    return (Token.Token(TokensClass.TokensClass.FIMARQ, '$', linha), linha)
                 elif(carct in [' ', '\t', '\n']):
                     pass
                 elif(carct.isalpha()):
@@ -71,117 +74,118 @@ class Lexico:
                 elif(carct in [':=', '=', '<', '>', '<=', '>=', '<>', '+', '-', '*', '/', '!', ';', ':', ',', '(', ')', '{', '}']):
                     estado = 5
                 else:
-                    return Token.Token(TokensClass.TokensClass.ERROR, '<'+ carct +'>')
+                    return (Token.Token(TokensClass.TokensClass.ERROR, '<'+ carct +'>', linha), linha)
             elif(estado == 2): # Estado para tratar identificadores e palavras reservadas
                 lexema += carct
-                carct = self.getChar(arq)
+                (carct, linha) = self.getChar(arq, linha)
 
                 # Verifica se a palavra terminou
                 if((carct is None) or (not(carct.isalnum()))):
                     self.ungetChar(carct)
 
                     if(lexema in self.reservadas):
-                        return Token.Token(self.reservadas[lexema], lexema)
+                        return (Token.Token(self.reservadas[lexema], lexema, linha), linha)
                     else:
                         # ID validos devem possuir no max, 32 caracters
                         if(len(lexema) <= 32):
-                            return Token.Token(TokensClass.TokensClass.ID, lexema)
+                            return (Token.Token(TokensClass.TokensClass.ID, lexema, linha), linha)
                         else:
-                            return Token.Token(TokensClass.TokensClass.ERROR, lexema)
+                            return (Token.Token(TokensClass.TokensClass.ERROR, lexema, linha), linha)
             elif(estado == 3): # Estado para tratar constantes numericas inteiras e reais
                 lexema += carct
-                carct = self.getChar(arq)
+                (carct, linha) = self.getChar(arq, linha)
 
                 # Verifica se a constante numerica terminou
                 if((carct is None) or (not(carct.isdigit()) and not(carct == '.'))):
                     self.ungetChar(carct)
-                    return Token.Token(TokensClass.TokensClass.CTE, lexema)
+                    return (Token.Token(TokensClass.TokensClass.CTE, lexema, linha), linha)
             elif(estado == 4): # Estado para tratar cadeia de caracter entre ""
                 lexema += carct
-                carct = self.getChar(arq)
+                (carct, linha) = self.getChar(arq, linha)
 
                 if((carct is None) or (carct == ')')):
-                    return Token.Token(TokensClass.TokensClass.CADEIA, lexema)
+                    return (Token.Token(TokensClass.TokensClass.CADEIA, lexema, linha), linha)
             elif(estado == 5): # Estado para tratar outros tokens primitivos
                 lexema += carct
                 
                 if(carct == '='):
-                    return Token.Token(TokensClass.OPREL, lexema)
+                    return (Token.Token(TokensClass.OPREL, lexema, linha), linha)
                 elif(carct == '<'):
-                    carct = self.getChar(arq)
+                    (carct, linha) = self.getChar(arq, linha)
 
                     # Verifica se eh o '<', '<=' ou '<>'
                     if(carct == '='):
                         lexema += carct
-                        return Token.Token(TokensClass.TokensClass.OPREL, lexema)
+                        return (Token.Token(TokensClass.TokensClass.OPREL, lexema, linha), linha)
                     elif(carct == '>'):
                         lexema += carct
-                        return Token.Token(TokensClass.TokensClass.OPREL, lexema)
+                        return (Token.Token(TokensClass.TokensClass.OPREL, lexema, linha), linha)
                     else:
                         self.ungetChar(carct)
-                        return Token.Token(TokensClass.TokensClass.OPREL, lexema)
+                        return (Token.Token(TokensClass.TokensClass.OPREL, lexema, linha), linha)
                 elif(carct == '>'):
-                    carct = self.getChar(arq)
+                    (carct, linha) = self.getChar(arq, linha)
 
                     # Verifica se eh o '>' ou '>='
                     if(carct == '='):
                         lexema += carct
-                        return Token.Token(TokensClass.TokensClass.OPREL, lexema)
+                        return (Token.Token(TokensClass.TokensClass.OPREL, lexema, linha), linha)
                     else:
                         self.ungetChar(carct)
-                        return Token.Token(TokensClass.TokensClass.OPREL, lexema)
+                        return (Token.Token(TokensClass.TokensClass.OPREL, lexema, linha), linha)
                 elif(carct == '+'):
-                    return Token.Token(TokensClass.TokensClass.OPAD, lexema)
+                    return (Token.Token(TokensClass.TokensClass.OPAD, lexema, linha), linha)
                 elif(carct == '-'):
-                    return Token.Token(TokensClass.TokensClass.OPAD, lexema)
+                    return (Token.Token(TokensClass.TokensClass.OPAD, lexema, linha), linha)
                 elif(carct == '*'):
-                    return Token.Token(TokensClass.TokensClass.OPMUL, lexema)
+                    return (Token.Token(TokensClass.TokensClass.OPMUL, lexema, linha), linha)
                 elif(carct == '/'):
-                    carct = self.getChar(arq)
+                    (carct, linha) = self.getChar(arq, linha)
 
                     # Verifica se eh o '/' ou '//'
                     if(carct == '/'): # Para tratar comentarios
                         while(not(carct is None) and (carct != '\n')):
-                            carct = self.getChar(arq)
+                            (carct, linha) = self.getChar(arq,linha)
                         
                         lexema = ''
                         estado = 1
                     else:
                         self.ungetChar(carct)
-                        return Token.Token(TokensClass.TokensClass.OPMUL, lexema)
+                        return (Token.Token(TokensClass.TokensClass.OPMUL, lexema, linha), linha)
                 elif(carct == '!'):
-                    return Token.Token(TokensClass.TokensClass.OPNEG, lexema)
+                    return (Token.Token(TokensClass.TokensClass.OPNEG, lexema, linha), linha)
                 elif(carct == ';'):
-                    return Token.Token(TokensClass.TokensClass.PVIRG, lexema)
+                    return (Token.Token(TokensClass.TokensClass.PVIRG, lexema, linha), linha)
                 elif(carct == ':'):
-                    carct = self.getChar(arq)
+                    (carct, linha) = self.getChar(arq, linha)
 
                     # Verifica se eh o ':' ou ':='
                     if(carct == '='):
                         lexema += carct
-                        return Token.Token(TokensClass.TokensClass.ATRIB, lexema)
+                        return (Token.Token(TokensClass.TokensClass.ATRIB, lexema, linha), linha)
                     else:
                         self.ungetChar(carct)
-                        return Token.Token(TokensClass.TokensClass.DPONTOS, lexema)
+                        return (Token.Token(TokensClass.TokensClass.DPONTOS, lexema, linha), linha)
                 elif(carct == ','):
-                    return Token.Token(TokensClass.TokensClass.VIRG, lexema)
+                    return (Token.Token(TokensClass.TokensClass.VIRG, lexema, linha), linha)
                 elif(carct == '('):
-                    return Token.Token(TokensClass.TokensClass.ABREPAR, lexema)
+                    return (Token.Token(TokensClass.TokensClass.ABREPAR, lexema, linha), linha)
                 elif(carct == ')'):
-                    return Token.Token(TokensClass.TokensClass.FECHAPAR, lexema)
+                    return (Token.Token(TokensClass.TokensClass.FECHAPAR, lexema, linha), linha)
                 elif(carct == '{'):
-                    return Token.Token(TokensClass.TokensClass.ABRECH, lexema)
+                    return (Token.Token(TokensClass.TokensClass.ABRECH, lexema, linha), linha)
                 elif(carct == '}'):
-                    return Token.Token(TokensClass.TokensClass.FECHACH, lexema)
+                    return (Token.Token(TokensClass.TokensClass.FECHACH, lexema, linha), linha)
 
     def analisaArquivo(self):
+        linha = 1
         listTokens = []
         arq = self.arquivo.abrirArquivo()
 
         while(True):
-            # SE PRECISAR do tokens, criar uma lista que receba no lugar da variavel token e dar return da lista de tokens
-            listTokens.append(self.getToken(arq))
-            print("token= %s , lexema= (%s)" % (listTokens[len(listTokens)-1].msg, listTokens[len(listTokens)-1].lexema))
+            (token, linha) = self.getToken(arq, linha)
+            listTokens.append(token)
+            print("token= %s , lexema= (%s), linha= %s" % (listTokens[len(listTokens)-1].msg, listTokens[len(listTokens)-1].lexema, listTokens[len(listTokens)-1].linha))
             
             if(listTokens[len(listTokens)-1].const == TokensClass.TokensClass.FIMARQ[0]):
                 break
