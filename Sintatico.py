@@ -1,8 +1,16 @@
+# Data: 2019/10/28
+# ------------------------------------------------ #
+# Autores: Vinícius Araujo - Mat.: 0011941
+#          Vinícius Morais - Mat.:  
+# ------------------------------------------------ #
+#
+
 from pip._internal.utils.misc import consume
 
 import Token
 import TokensClass
 import Lexico
+
 class Sintatico:
     # teste 3
     def __init__(self):

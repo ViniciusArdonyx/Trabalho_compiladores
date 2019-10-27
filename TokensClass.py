@@ -35,3 +35,4 @@ class TokensClass:
     ABRECH = (27, '{')
     FECHACH = (28, '}')
     FIMARQ = (29, '$')
+    ERROR = (30, 'erro')

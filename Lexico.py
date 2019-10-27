@@ -55,15 +55,33 @@ class Lexico:
         estado = 1
         processa = True
 
-        #while processa:
+        while processa:
+            if(estado == 1):
+                carct = self.getChar()
 
+                if(carct is None):
+                    return Token.Token(TokensClass.TokensClass.FIMARQ, '$')
+                elif(carct in [' ', '\t', '\n']):
+                    pass
+                elif(carct.isalpha()):
+                    estado = 2
+                elif(carct.isdigit()):
+                    estado = 3
+                elif(carct in [':=', '=', '<', '>', '<=', '>=', '<>', '+', '-', '*', '/', '!', ';', ':', ',', '(', ')', '{', '}']):
+                    estado = 4
+                elif(carct == '//'):
+                    estado = 5
+                else:
+                    return Token.Token(TokensClass.TokensClass.ERROR, '<'+ carct +'>')
+            elif(estado == 2):
+                continue
 
     def analisaArquivo(self):
         arq = self.arquivo.abrirArquivo()
 
-        #while(True):
+        while(True):
             # SE PRECISAR do tokens, criar uma lista que receba no lugar da variavel token e dar return da lista de tokens
-        #    token = self.getToken(arq)
+            token = self.getToken(arq)
             #print('Token: ')
 
             # if token.const == TipoToken.FIMARQ[0]:
