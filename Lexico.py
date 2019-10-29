@@ -5,8 +5,10 @@
 # ------------------------------------------------ #
 #
 
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import Token
-import Archive
 import TokensClass
 
 class Lexico:
@@ -26,9 +28,8 @@ class Lexico:
         'VERDADEIRO': TokensClass.TokensClass.VERDADEIRO,
     }
     
-    def __init__(self, nomeArquivo):
+    def __init__(self):
         self.buffer = ''
-        self.arquivo = Archive.Archive(nomeArquivo)
     
     def getChar(self, arq, linha):
         carct = None
@@ -103,6 +104,7 @@ class Lexico:
                 (carct, linha) = self.getChar(arq, linha)
 
                 if((carct is None) or (carct == ')')):
+                    self.ungetChar(carct)
                     return (Token.Token(TokensClass.TokensClass.CADEIA, lexema, linha), linha)
             elif(estado == 5): # Estado para tratar outros tokens primitivos
                 lexema += carct
@@ -176,18 +178,20 @@ class Lexico:
                 elif(carct == '}'):
                     return (Token.Token(TokensClass.TokensClass.FECHACH, lexema, linha), linha)
 
-    def analisaArquivo(self):
-        linha = 1
-        listTokens = []
-        arq = self.arquivo.abrirArquivo()
+    #def analisaArquivo(self):
+    #    linha = 1
+    #    listTokens = []
+    #    arq = self.arquivo.abrirArquivo()
 
-        while(True):
-            (token, linha) = self.getToken(arq, linha)
-            listTokens.append(token)
-            print("token= %s , lexema= (%s), linha= %s" % (listTokens[len(listTokens)-1].msg, listTokens[len(listTokens)-1].lexema, listTokens[len(listTokens)-1].linha))
-            
-            if(listTokens[len(listTokens)-1].const == TokensClass.TokensClass.FIMARQ[0]):
-                break
-        
-        arq = self.arquivo.fecharArquivo()
-        return listTokens
+    #    while(True):
+    #        (token, linha) = self.getToken(arq, linha)
+    #        sintatico = 
+
+    #        listTokens.append(token)
+    #        print("token= %s , lexema= (%s), linha= %s" % (listTokens[len(listTokens)-1].msg, listTokens[len(listTokens)-1].lexema, listTokens[len(listTokens)-1].linha))
+    #        
+    #        if(listTokens[len(listTokens)-1].const == TokensClass.TokensClass.FIMARQ[0]):
+    #            break
+    #    
+    #    arq = self.arquivo.fecharArquivo()
+    #    return listTokens

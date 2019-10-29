@@ -5,31 +5,41 @@
 # ------------------------------------------------ #
 #
 
-from pip._internal.utils.misc import consume
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import Token
-import TokensClass
 import Lexico
+import Archive
+import TokensClass
 
 class Sintatico:
 
     # Construtor
-    def __init__(self):
+    def __init__(self, lexico, nomeArquivo):
+        self.linha = 1
         self.tokenAtual = None
-        self.analisadorLexico = Lexico.Lexico
+        self.analisadorLexico = lexico
         self.tokenList = TokensClass.TokensClass()
+        self.arquivo = Archive.Archive(nomeArquivo)
 
     def consume(self, token):
         # verifico se o token que estou lendo é igual ao token esperado:
-        if token == self.tokenAtual:
-            self.tokenAtual = self.analisadorLexico.getToken()
+        if token == self.tokenAtual.tipo:
+            (self.tokenAtual, self.linha) = self.analisadorLexico.getToken(self.arquivo.arquivo, self.linha)
         else:
-            print("SINTATICO] Erro na linha: " + "LINHA COLOCAR" + "\nEra esperado: " + str(token) +
-                  " mas veio: "+ str(self.tokenAtual) + ".")
+            print("[SINTATICO] Erro na linha: " + str(self.tokenAtual.linha) + "\nEra esperado: ('" + str(token[1]) +
+                  "') mas veio: ('"+ str(self.tokenAtual.msg) + "').")
+            quit()
 
     def parser(self):
-        self.tokenAtual = self.analisadorLexico.getToken()
+        self.arquivo.arquivo = self.arquivo.abrirArquivo()
+
+        (self.tokenAtual, self.linha) = self.analisadorLexico.getToken(self.arquivo.arquivo, self.linha)
+        #print(self.tokenAtual)
         self.a()
+
+        self.arquivo.arquivo = self.arquivo.fecharArquivo()
 
     def a(self):
         self.prog()
@@ -43,7 +53,7 @@ class Sintatico:
         self.c_comp()
 
     def decls(self):
-        if self.tokenAtual == self.tokenList.VARIAVEIS:
+        if self.tokenAtual.tipo == self.tokenList.VARIAVEIS:
             self.consume(self.tokenList.VARIAVEIS)
             self.list_decls()
         else:
@@ -64,24 +74,24 @@ class Sintatico:
         self.e()
 
     def e(self):
-        if self.tokenAtual == self.tokenList.VIRG:
+        if self.tokenAtual.tipo == self.tokenList.VIRG:
             self.consume(self.tokenList.VIRG)
             self.list_id()
         else:
             pass
 
     def tipo(self):
-        if self.tokenAtual == self.tokenList.INTEIRO:
+        if self.tokenAtual.tipo == self.tokenList.INTEIRO:
             self.consume(self.tokenList.INTEIRO)
-        elif self.tokenAtual == self.tokenList.REAL:
+        elif self.tokenAtual.tipo == self.tokenList.REAL:
             self.consume(self.tokenList.REAL)
-        elif self.tokenAtual == self.tokenList.LOGICO:
+        elif self.tokenAtual.tipo == self.tokenList.LOGICO:
             self.consume(self.tokenList.LOGICO)
         else:
             self.consume(self.tokenList.CARACTER)
 
     def d(self):
-        if self.tokenAtual == self.tokenList.ID:
+        if self.tokenAtual.tipo == self.tokenList.ID:
             self.list_decls()
         else:
             pass
@@ -96,13 +106,13 @@ class Sintatico:
         self.g()
 
     def comandos(self):
-        if self.tokenAtual == self.tokenList.SE:
+        if self.tokenAtual.tipo == self.tokenList.SE:
             self._if()
-        elif self.tokenAtual == self.tokenList.ENQUANTO:
+        elif self.tokenAtual.tipo == self.tokenList.ENQUANTO:
             self._while()
-        elif self.tokenAtual == self.tokenList.LEIA:
+        elif self.tokenAtual.tipo == self.tokenList.LEIA:
             self._read()
-        elif self.tokenAtual == self.tokenList.ESCREVA:
+        elif self.tokenAtual.tipo == self.tokenList.ESCREVA:
             self._write()
         else:
             self.atrib()
@@ -128,45 +138,45 @@ class Sintatico:
         self.s()
 
     def fat(self):
-        if self.tokenAtual == self.tokenList.ID:
+        if self.tokenAtual.tipo == self.tokenList.ID:
             self.consume(self.tokenList.ID)
-        elif self.tokenAtual == self.tokenList.CTE:
+        elif self.tokenAtual.tipo == self.tokenList.CTE:
             self.consume(self.tokenList.CTE)
-        elif self.tokenAtual == self.tokenList.ABREPAR:
+        elif self.tokenAtual.tipo == self.tokenList.ABREPAR:
             self.consume(self.tokenList.ABREPAR)
             self.expr()
             self.consume(self.tokenList.FECHAPAR)
-        elif self.tokenAtual == self.tokenList.VERDADEIRO:
+        elif self.tokenAtual.tipo == self.tokenList.VERDADEIRO:
             self.consume(self.tokenList.VERDADEIRO)
-        elif self.tokenAtual == self.tokenList.FALSO:
+        elif self.tokenAtual.tipo == self.tokenList.FALSO:
             self.consume(self.tokenList.FALSO)
         else:
             self.consume(self.tokenList.OPNEG)
             self.fat()
 
     def s(self):
-        if self.tokenAtual == self.tokenList.OPMUL:
+        if self.tokenAtual.tipo == self.tokenList.OPMUL:
             self.consume(self.tokenList.OPMUL)
             self.termo()
         else:
             pass
 
     def r(self):
-        if self.tokenAtual == self.tokenList.OPAD:
+        if self.tokenAtual.tipo == self.tokenList.OPAD:
             self.consume(self.tokenList.OPAD)
             self.simples()
         else:
             pass
 
     def p(self):
-        if self.tokenAtual == self.tokenList.OPREL:
+        if self.tokenAtual.tipo == self.tokenList.OPREL:
             self.consume(self.tokenList.OPREL)
             self.simples()
         else:
             pass
 
     def h(self):
-        if self.tokenAtual == self.tokenList.SENAO:
+        if self.tokenAtual.tipo == self.tokenList.SENAO:
             self.consume(self.tokenList.SENAO)
             self.c_comp()
         else:
@@ -198,13 +208,13 @@ class Sintatico:
         self.l()
 
     def elem_w(self):
-        if self.tokenAtual == self.tokenList.CADEIA:
+        if self.tokenAtual.tipo == self.tokenList.CADEIA:
             self.consume(self.tokenList.CADEIA)
         else:
             self.expr()
 
     def l(self):
-        if self.tokenAtual == self.tokenList.VIRG:
+        if self.tokenAtual.tipo == self.tokenList.VIRG:
             self.consume(self.tokenList.VIRG)
             self.list_w()
         else:
@@ -217,7 +227,7 @@ class Sintatico:
         self.consume(self.tokenList.PVIRG)
 
     def g(self):
-        if self.tokenAtual == self.tokenList.SE or self.tokenAtual == self.tokenList.ENQUANTO or self.tokenAtual == self.tokenList.LEIA or self.tokenAtual == self.tokenList.ESCREVA or self.tokenAtual == self.tokenList.ID:
+        if self.tokenAtual.tipo == self.tokenList.SE or self.tokenAtual.tipo == self.tokenList.ENQUANTO or self.tokenAtual.tipo == self.tokenList.LEIA or self.tokenAtual.tipo == self.tokenList.ESCREVA or self.tokenAtual.tipo == self.tokenList.ID:
             self.lista_comandos()
         else:
             pass

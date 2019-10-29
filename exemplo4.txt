@@ -1,0 +1,24 @@
+//Erros nas linhas 3 e 18 (falta o abre chaves)
+PROGRAMA exemplo4;
+VARIAVEIS 4x,y: INTEIRO;
+          c:   CARACTER;
+          r:   REAL;
+	  b:   LOGICO;
+{
+    ESCREVA("Digite um numero:");
+    LEIA(x);
+    y:=x;
+    b:=VERDADEIRO;
+    ENQUANTO(b)  
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+        }
+        SENAO
+        
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

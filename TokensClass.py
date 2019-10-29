@@ -5,6 +5,9 @@
 # ------------------------------------------------ #
 #
 
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 class TokensClass:
     ID = (1, 'ident')
     CTE = (2, 'const')
