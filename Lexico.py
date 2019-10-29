@@ -26,7 +26,6 @@ class Lexico:
         'VERDADEIRO': TokensClass.TokensClass.VERDADEIRO,
     }
     
-    # Construtor
     def __init__(self, nomeArquivo):
         self.buffer = ''
         self.arquivo = Archive.Archive(nomeArquivo)

@@ -12,16 +12,17 @@ import TokensClass
 import Lexico
 
 class Sintatico:
-    # teste 3
+
+    # Construtor
     def __init__(self):
-        self.analisadorLexico = Lexico.Lexico
         self.tokenAtual = None
-        self.tokenList = TokensClass.TokensClass
+        self.analisadorLexico = Lexico.Lexico
+        self.tokenList = TokensClass.TokensClass()
 
     def consume(self, token):
         # verifico se o token que estou lendo é igual ao token esperado:
         if token == self.tokenAtual:
-            self.tokenAtual = self.analisadorLexico.getToken();
+            self.tokenAtual = self.analisadorLexico.getToken()
         else:
             print("SINTATICO] Erro na linha: " + "LINHA COLOCAR" + "\nEra esperado: " + str(token) +
                   " mas veio: "+ str(self.tokenAtual) + ".")
@@ -30,10 +31,9 @@ class Sintatico:
         self.tokenAtual = self.analisadorLexico.getToken()
         self.a()
 
-
     def a(self):
-        self.prog();
-        self.consume(self.tokenList.FIMARQ);
+        self.prog()
+        self.consume(self.tokenList.FIMARQ)
 
     def prog(self):
         self.consume(self.tokenList.PROGRAMA)
