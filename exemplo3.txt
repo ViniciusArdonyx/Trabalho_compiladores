@@ -1,0 +1,20 @@
+//Programa com identificadores invalidos nas linhas 4, 6 e 7 e um erro //sintatico na linha 4(apos a , deve vir um identificador). 
+PROGRAMA exemplo3;
+VARIAVEIS çx,y,: INTEIRO;
+          c:   CARACTER;
+          $r:   REAL;
+	  çb:   LOGICO;
+{
+    ESCREVA("Digite um numero:");
+    LEIA(x);
+    y:=x;
+    b:=VERDADEIRO;
+    ENQUANTO(b)  
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+        }
+        
+     }
+}
