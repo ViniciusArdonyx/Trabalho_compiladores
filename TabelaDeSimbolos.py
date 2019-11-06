@@ -6,7 +6,7 @@ class TabelaDeSimbolos:
         self.nome = nomeArquivo
 
     def criaTabela(self, listaIdent, listaTipo, listaLinha, listaReservadas):
-        self.arquivoI = open('./'+self.nome+'.txt','w')
+        self.arquivoI = open('./'+self.nome,'w')
         #self.arquivoI = open('./TabelaDeSimbolosIdentificadores.txt', 'w')
 
         self.arquivoI.write("########################## TABELA DE SIMBOLOS - IDENTIFICADORES ##########################")
