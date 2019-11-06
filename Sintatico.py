@@ -46,34 +46,34 @@ class Sintatico:
 
     FOLLOW = {
         'a': 'eof',
-        'prog': 'eof',
-        'decls': 'eof {',
-        'list_decls': 'eof { ident',
-        'decl_tipo': 'eof {',
-        'list_id': 'eof : )',
-        'e': 'eof : )',
+        'prog': 'eof ;',
+        'decls': 'eof { ;',
+        'list_decls': 'eof { ident ;',
+        'decl_tipo': 'eof { ;',
+        'list_id': 'eof : ) ;',
+        'e': 'eof : ) ;',
         'tipo': 'eof ;',
-        'd': 'eof {',
-        'c_comp': 'eof ident ENQUANTO ESCREVA } LEIA SE SENAO',
-        'lista_comandos': 'eof }',
-        'comandos': 'eof ident ENQUANTO ESCREVA } LEIA SE',
-        '_if': 'eof ident ENQUANTO ESCREVA } LEIA SE',
+        'd': 'eof { ;',
+        'c_comp': 'eof ident ENQUANTO ESCREVA } LEIA SE SENAO ;',
+        'lista_comandos': 'eof } ;',
+        'comandos': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
+        '_if': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
         'expr': 'eof ) ; ,',
         'simples': 'eof ) ; , = < > <= >= <>',
         'termo': 'eof ) ; , = < > <= >= <> + -',
-        'fat': 'eof + - * /',
+        'fat': 'eof + - * / ;',
         's': 'eof ) ; , = < > <= >= <> + -',
         'r': 'eof ) ; , = < > <= >= <>',
         'p': 'eof ) ; ,',
-        'h': 'eof ident ENQUANTO ESCREVA } LEIA SE',
-        '_while': 'eof ident ENQUANTO ESCREVA } LEIA SE',
-        '_read': 'eof ident ENQUANTO ESCREVA } LEIA SE',
-        '_write': 'eof ident ENQUANTO ESCREVA } LEIA SE',
-        'list_w': 'eof )',
-        'elem_w': 'eof ) ,',
-        'l': 'eof )',
-        'atrib': 'eof ident ENQUANTO ESCREVA } LEIA SE',
-        'g': 'eof }'
+        'h': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
+        '_while': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
+        '_read': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
+        '_write': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
+        'list_w': 'eof ) ;',
+        'elem_w': 'eof ) , ;',
+        'l': 'eof ) ;',
+        'atrib': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
+        'g': 'eof } ;'
     }
 
     # Construtor
@@ -82,12 +82,85 @@ class Sintatico:
         self.tokenAtual = None
         self.analisadorLexico = lexico
         self.tokenList = TokensClass.TokensClass()
-        self.tabela = SymbolTable.SymbolTable()
         self.arquivo = Archive.Archive(nomeArquivo)
+        self.listIdent = []
+        self.listTipo = []
+        self.listLinha = []
+        self.cont = 0
+        self.tipoAnterior = None
+
 
     def consume(self, token, lfollow):
         if token == self.tokenAtual.tipo:
+            if self.tokenAtual.tipo == self.tokenList.PROGRAMA:
+                self.tipoAnterior = 'PROGRAMA'
+
             (self.tokenAtual, self.linha) = self.analisadorLexico.getToken(self.arquivo.arquivo, self.linha)
+
+            if ((self.tokenAtual.tipo == self.tokenList.PVIRG and self.tipoAnterior == 'PROGRAMA') or
+                (self.tokenAtual.tipo == self.tokenList.VARIAVEIS and self.tipoAnterior == 'PROGRAMA') or
+                (self.tokenAtual.tipo == self.tokenList.ABRECH and self.tipoAnterior == 'PROGRAMA') or
+                (self.tokenAtual.tipo == self.tokenList.INTEIRO and self.tipoAnterior == 'PROGRAMA') or
+                (self.tokenAtual.tipo == self.tokenList.REAL and self.tipoAnterior == 'PROGRAMA') or
+                (self.tokenAtual.tipo == self.tokenList.CARACTER and self.tipoAnterior == 'PROGRAMA') or
+                (self.tokenAtual.tipo == self.tokenList.LOGICO and self.tipoAnterior == 'PROGRAMA')):
+                self.listTipo.append('PROGRAMA')
+                self.listIdent.append('None')
+                self.listLinha.append(self.tokenAtual.linha)
+                self.tipoAnterior = None
+
+            if self.tokenAtual.tipo == self.tokenList.ID and self.tipoAnterior == 'PROGRAMA':
+                self.listTipo.append('PROGRAMA')
+                self.listIdent.append(self.tokenAtual.lexema)
+                self.listLinha.append(self.tokenAtual.linha)
+                self.tipoAnterior = None
+
+            if self.tokenAtual.tipo == self.tokenList.ID:
+                if (self.tokenAtual.lexema not in self.listIdent):
+                    self.cont += 1
+                    self.listIdent.append(self.tokenAtual.lexema)
+                    self.listLinha.append(self.tokenAtual.linha)
+            elif self.cont != 0 and self.tokenAtual.tipo == self.tokenList.PVIRG:
+                while self.cont != 0:
+                    self.listTipo.append('None')
+                    self.listLinha.append(self.tokenAtual.linha)
+                    self.cont -= 1
+                self.cont = 0
+            elif (self.tokenAtual.msg == 'INTEIRO'):
+                while self.cont != 0:
+                    self.listTipo.append('INTEIRO')
+                    self.listLinha.append(self.tokenAtual.linha)
+                    self.cont -= 1
+                self.cont = 0
+            elif (self.tokenAtual.msg == 'REAL'):
+                while self.cont != 0:
+                    self.listTipo.append('REAL')
+                    self.listLinha.append(self.tokenAtual.linha)
+                    self.cont -= 1
+                self.cont = 0
+            elif (self.tokenAtual.msg == 'LOGICO'):
+                while self.cont != 0:
+                    self.listTipo.append('LOGICO')
+                    self.listLinha.append(self.tokenAtual.linha)
+                    self.cont -= 1
+                self.cont = 0
+            elif (self.tokenAtual.msg == 'CARACTER'):
+                while self.cont != 0:
+                    self.listTipo.append('CARACTER')
+                    self.listLinha.append(self.tokenAtual.linha)
+                    self.cont -= 1
+                self.cont = 0
+            elif self.tokenAtual.tipo == self.tokenList.DPONTOS:
+                pass;
+            elif self.tokenAtual.tipo == self.tokenList.VIRG:
+                pass
+            else:
+                while self.cont != 0:
+                    self.listTipo.append('None')
+                    self.listLinha.append(self.tokenAtual.linha)
+                    self.cont -= 1
+                self.cont = 0
+
         else:
             print("[SINTATICO] Erro na linha: " + str(self.tokenAtual.linha) + "\nEra esperado: ('" + str(token[1]) +
                 "') mas veio: ('"+ str(self.tokenAtual.msg) + "').")
@@ -100,7 +173,7 @@ class Sintatico:
         self.arquivo.arquivo = self.arquivo.abrirArquivo()
 
         (self.tokenAtual, self.linha) = self.analisadorLexico.getToken(self.arquivo.arquivo, self.linha)
-        self.tabela.inserirNaTabela(self.tokenAtual.const, self.tokenAtual)
+        #self.tabela.inserirNaTabela(self.tokenAtual.const, self.tokenAtual)
         self.a()
 
         self.arquivo.arquivo = self.arquivo.fecharArquivo()

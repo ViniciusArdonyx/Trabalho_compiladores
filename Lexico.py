@@ -147,16 +147,16 @@ class Lexico:
                         
                         lexema = ''
                         estado = 1
-                    """
-                    elif(carct == '*'): # Para tratar comentarios de bloco
-                        while(not(carct is None) and (carct != '*')):
-                            (carct, linha) = self.getChar(arq,linha)
-                        
-                        while(not(carct is None) and (carct != '/')):
-                            (carct, linha) = self.getChar(arq,linha)
-                        
-                        lexema = ''
-                        estado = 1"""
+
+                    # elif(carct == '*'): # Para tratar comentarios de bloco
+                    #     while(not(carct is None) and (carct != '*')):
+                    #         (carct, linha) = self.getChar(arq,linha)
+                    #
+                    #     while(not(carct is None) and (carct != '/')):
+                    #         (carct, linha) = self.getChar(arq,linha)
+                    #
+                    #     lexema = ''
+                    #     estado = 1
                     else:
                         self.ungetChar(carct)
                         return (Token.Token(TokensClass.TokensClass.OPMUL, lexema, linha), linha)
