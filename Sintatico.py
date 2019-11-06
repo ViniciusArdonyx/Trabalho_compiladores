@@ -46,34 +46,34 @@ class Sintatico:
 
     FOLLOW = {
         'a': 'eof',
-        'prog': 'eof ;',
-        'decls': 'eof { ;',
-        'list_decls': 'eof { ident ;',
-        'decl_tipo': 'eof { ;',
-        'list_id': 'eof : ) ;',
-        'e': 'eof : ) ;',
-        'tipo': 'eof ;',
-        'd': 'eof { ;',
-        'c_comp': 'eof ident ENQUANTO ESCREVA } LEIA SE SENAO ;',
-        'lista_comandos': 'eof } ;',
-        'comandos': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
-        '_if': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
+        'prog': 'eof',
+        'decls': 'eof {',
+        'list_decls': 'eof { ident',
+        'decl_tipo': 'eof {',
+        'list_id': 'eof : )',
+        'e': 'eof : )',
+        'tipo': 'eof',
+        'd': 'eof {',
+        'c_comp': 'eof ident ENQUANTO ESCREVA } LEIA SE SENAO',
+        'lista_comandos': 'eof }',
+        'comandos': 'eof ident ENQUANTO ESCREVA } LEIA SE',
+        '_if': 'eof ident ENQUANTO ESCREVA } LEIA SE',
         'expr': 'eof ) ; ,',
         'simples': 'eof ) ; , = < > <= >= <>',
         'termo': 'eof ) ; , = < > <= >= <> + -',
-        'fat': 'eof + - * / ;',
+        'fat': 'eof + - * /',
         's': 'eof ) ; , = < > <= >= <> + -',
         'r': 'eof ) ; , = < > <= >= <>',
         'p': 'eof ) ; ,',
-        'h': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
-        '_while': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
-        '_read': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
-        '_write': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
-        'list_w': 'eof ) ;',
-        'elem_w': 'eof ) , ;',
-        'l': 'eof ) ;',
-        'atrib': 'eof ident ENQUANTO ESCREVA } LEIA SE ;',
-        'g': 'eof } ;'
+        'h': 'eof ident ENQUANTO ESCREVA } LEIA SE',
+        '_while': 'eof ident ENQUANTO ESCREVA } LEIA SE',
+        '_read': 'eof ident ENQUANTO ESCREVA } LEIA SE',
+        '_write': 'eof ident ENQUANTO ESCREVA } LEIA SE',
+        'list_w': 'eof )',
+        'elem_w': 'eof ) ,',
+        'l': 'eof )',
+        'atrib': 'eof ident ENQUANTO ESCREVA } LEIA SE',
+        'g': 'eof }'
     }
 
     # Construtor
@@ -165,9 +165,13 @@ class Sintatico:
             print("[SINTATICO] Erro na linha: " + str(self.tokenAtual.linha) + "\nEra esperado: ('" + str(token[1]) +
                 "') mas veio: ('"+ str(self.tokenAtual.msg) + "').")
             
-            #Panico
+            # Panico
             while(not(self.tokenAtual.msg in lfollow)):
                 (self.tokenAtual, self.linha) = self.analisadorLexico.getToken(self.arquivo.arquivo, self.linha)
+            
+            # Se o token foi o final de arquivo, termina a execucao para nao estourar a pilha
+            if(self.tokenAtual.msg == 'eof'):
+                quit()
 
     def parser(self):
         self.arquivo.arquivo = self.arquivo.abrirArquivo()

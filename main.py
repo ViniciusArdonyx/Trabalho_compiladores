@@ -29,44 +29,33 @@ def blocoPrincipal(codeFile, fileTable):
         tabela = TabelaDeSimbolos.TabelaDeSimbolos(fileTable)
         listReserv = []
         aux = []
+
         for r in lexico.reservadas:
             aux.append(r.split())
+
         for i in aux:
             a = len(str(i)) -2
             listReserv.append(str(i)[2:a])
+
         tabela.criaTabela(sintatico.listIdent,sintatico.listTipo,sintatico.listLinha, listReserv)
 
 if __name__ == "__main__":
     # Pega todos os parametros informados por linha de comando
     param = sys.argv
 
-    print(len(param))
-    if len(param) == 4:
+    # Mensagem de erro
+    msgError = 'ERRO: Parametros informados invalidos.\nEntradas validas:\n\tpython3 main.py codigo_fonte.txt\tpython3 main.py codigo_fonte.txt –t nomearquivo.txt'
+
+    if(len(param) == 2):
         codeFile = param[1]
-        fileTable = str(param[3])
-        blocoPrincipal(codeFile,fileTable)
-    elif len(param <=2):
-        codeFile = param[1]
-        fileTable = None
-        blocoPrincipal(codeFile, fileTable)
+        blocoPrincipal(codeFile, None)
+    elif(len(param) == 4):
+        if(param[2] == '-t'):
+            codeFile = param[1]
+            fileTable = str(param[3])
+            blocoPrincipal(codeFile, fileTable)
+        else:
+            print(msgError)
+            exit()
     else:
-        msgError = 'ERRO: Parametros informados invalidos.\nEntradas validas:\n\tpython3 main.py codigo_fonte.txt\tpython3 main.py codigo_fonte.txt –t nomearquivo.txt'
         print(msgError)
-    # codeFile = param[0]
-    #
-    # if(len(param) <= 1):
-    #     blocoPrincipal(codeFile)
-    # elif len(param > 2):
-    #     if (len(param < 4)):
-    #         msgError = 'ERRO: Parametros informados invalidos.\nEntradas validas:\n\tpython3 main.py codigo_fonte.txt\tpython3 main.py codigo_fonte.txt –t nomearquivo.txt'
-    #
-    # else:
-    #     msgError = 'ERRO: Parametros informados invalidos.\nEntradas validas:\n\tpython3 main.py codigo_fonte.txt\tpython3 main.py codigo_fonte.txt –t nomearquivo.txt'
-    #
-    #     if(param[1] == '-t'):
-    #         blocoPrincipal(codeFile)
-    #         # Tem que gerar o arquivo da tabela de simbolos
-    #         pass
-    #     else:
-    #         print(msgError)
-    #         exit()

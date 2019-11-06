@@ -17,10 +17,12 @@ class Archive:
     def abrirArquivo(self):
         if(not self.arquivo is None):
             print('ERRO: Arquivo aberto.')
+            quit()
         elif(path.exists(self.nomeArquivo)):
             self.arquivo = open(self.nomeArquivo, 'r', encoding='latin-1')
         else:
             print('ERRO: Arquivo inexistente.')
+            quit()
         
         return self.arquivo
     
