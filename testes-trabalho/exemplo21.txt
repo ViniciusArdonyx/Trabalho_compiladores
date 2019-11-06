@@ -1,0 +1,25 @@
+//Programa com identificadores invalidos nas linhas 4, 6 e 7 e um erro sintatico na linha 4(
+//apos a , deve vir um identificador). 
+PROGRAMA exemplo21;
+VARIAVEIS çx,y,: INTEIRO; // falta ID depois da virgula;
+          c:   CARACTER;
+          $r:   ; // erro sintatico: faltando o tipo do identificador - linha 6
+	  çb:   LOGICO;
+{
+    ESCREVA("Digite um numero:",);//erro sintatico: , seguida de ) em ESCREVA 
+    LEIA( );//erro sintatico: LEIA sem argumentos 
+    y:=x;
+    b:=VERDADEIRO;
+    ENQUANTO(b)  
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+        }
+        SENAO
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

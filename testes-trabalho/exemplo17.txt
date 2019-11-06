@@ -1,0 +1,25 @@
+//Verifica se o sintatico nao permite duas palavras reservadas VARIAVEIS  em um mesmo programa
+PROGRAMA exemplo17;
+VARIAVEIS x: INTEIRO;
+VARIAVEIS x,y: INTEIRO;
+          c:   CARACTER;
+          r:   REAL;
+	  b:   LOGICO;
+{
+    ESCREVA("Digite um numero:");
+    LEIA(x);
+    y:=x;
+    b:=VERDADEIRO;
+    ENQUANTO(b)
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+        }
+        ELSE // deveria ser SENAO
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

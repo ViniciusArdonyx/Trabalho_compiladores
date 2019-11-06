@@ -1,0 +1,18 @@
+PROGRAMA exemplo41;
+VARIAVEIS x,y,w: INTEIRO;  
+          c:   CARACTER;
+          b:   LOGICO; 
+{
+  
+    LEIA(y ) // ausencia de ponto e virgula 
+    y:=x;  
+    b:=2 > 3;
+    ENQUANTO(x > y ) 
+    { 
+        SENAO  // erro: SENAO sem o SE
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

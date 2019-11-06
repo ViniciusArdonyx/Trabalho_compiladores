@@ -1,0 +1,22 @@
+PROGRAMA exemplo25;
+VARIAVEIS x,y,w: INTEIRO; 
+          c:   CARACTER;
+          b:   LOGICO;
+{
+    ESCREVA(); // erro sintatico: ESCREVA  sem argumentos 
+    y:=x;
+    b:=VERDADEIRO;
+    ENQUANTO(b)  
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+        }
+        SENAO
+        {
+             y:=y+3;
+             b:=FALSO;
+        };  //erro: naum deveria ter ;
+     }
+}
+// comentario que naum implica em erro no codigo

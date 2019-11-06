@@ -1,0 +1,8 @@
+//Programa com erro na linha 7
+PROGRAMA exemplo16; 
+{
+   /****/
+   
+
+   ; 
+}

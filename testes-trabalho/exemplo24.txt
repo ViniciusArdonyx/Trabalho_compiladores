@@ -1,0 +1,23 @@
+PROGRAMA exemplo24;
+VARIAVEIS x,y,w: INTEIRO; 
+          c:   CARACTER;
+          r:   ; // erro sintatico: faltando o tipo do identificador - linha 4
+	  b:   LOGICO;
+{
+  
+    LEIA( );//erro sintatico: LEIA sem argumentos 
+    y:=x;
+    b:=VERDADEIRO;
+    ENQUANTO(b)  
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+        }
+        SENAO
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}; // erro: naum deveria ter o ;

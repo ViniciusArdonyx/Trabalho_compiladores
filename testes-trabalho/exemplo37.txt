@@ -1,0 +1,19 @@
+PROGRAMA exemplo37;
+VARIAVEIS c:   CARACTER // erro sintatico:  ausencia de ponto e virgula
+          b   LOGICO // erro sintatico:  ausencia de dois pontos e ponto e virgula
+{
+    ESCREVA() // erro sintatico:  ausencia de ponto e virgula  
+    b:=VERDADEIRO // erro sintatico:  ausencia de ponto e virgula
+    ENQUANTO(b)  
+    { 
+        SEy>10) // ausencia do abre parenteses
+        { 
+             ESCREVA(y;  //ausencia do fecha parenteses
+        }
+        SENAO
+        {
+             y:=y+3 // ausencia de ponto e virgula
+             b:=FALSO;
+        }
+     }
+}

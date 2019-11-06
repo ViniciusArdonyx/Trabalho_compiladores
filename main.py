@@ -11,9 +11,6 @@
 ##          ou
 ##  python3 main.py codigo_fonte.txt –t nomearquivo.txt
 
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 import sys
 import Lexico
 import Sintatico

@@ -5,9 +5,6 @@
 # ------------------------------------------------ #
 #
 
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 import Token
 import TokensClass
 
@@ -25,7 +22,7 @@ class Lexico:
         'LEIA': TokensClass.TokensClass.LEIA,
         'ESCREVA': TokensClass.TokensClass.ESCREVA,
         'FALSO': TokensClass.TokensClass.FALSO,
-        'VERDADEIRO': TokensClass.TokensClass.VERDADEIRO,
+        'VERDADEIRO': TokensClass.TokensClass.VERDADEIRO
     }
     
     def __init__(self):
@@ -103,8 +100,8 @@ class Lexico:
                 lexema += carct
                 (carct, linha) = self.getChar(arq, linha)
 
-                if((carct is None) or (carct == ')')):
-                    self.ungetChar(carct)
+                if((carct is None) or (carct == '"')):#(carct == ')')):
+                    #self.ungetChar(carct)
                     return (Token.Token(TokensClass.TokensClass.CADEIA, lexema, linha), linha)
             elif(estado == 5): # Estado para tratar outros tokens primitivos
                 lexema += carct
@@ -143,13 +140,23 @@ class Lexico:
                 elif(carct == '/'):
                     (carct, linha) = self.getChar(arq, linha)
 
-                    # Verifica se eh o '/' ou '//'
-                    if(carct == '/'): # Para tratar comentarios
+                    # Verifica se eh o '/' ou '//' ou '/**/'
+                    if(carct == '/'): # Para tratar comentarios de linha
                         while(not(carct is None) and (carct != '\n')):
                             (carct, linha) = self.getChar(arq,linha)
                         
                         lexema = ''
                         estado = 1
+                    """
+                    elif(carct == '*'): # Para tratar comentarios de bloco
+                        while(not(carct is None) and (carct != '*')):
+                            (carct, linha) = self.getChar(arq,linha)
+                        
+                        while(not(carct is None) and (carct != '/')):
+                            (carct, linha) = self.getChar(arq,linha)
+                        
+                        lexema = ''
+                        estado = 1"""
                     else:
                         self.ungetChar(carct)
                         return (Token.Token(TokensClass.TokensClass.OPMUL, lexema, linha), linha)
@@ -177,21 +184,3 @@ class Lexico:
                     return (Token.Token(TokensClass.TokensClass.ABRECH, lexema, linha), linha)
                 elif(carct == '}'):
                     return (Token.Token(TokensClass.TokensClass.FECHACH, lexema, linha), linha)
-
-    #def analisaArquivo(self):
-    #    linha = 1
-    #    listTokens = []
-    #    arq = self.arquivo.abrirArquivo()
-
-    #    while(True):
-    #        (token, linha) = self.getToken(arq, linha)
-    #        sintatico = 
-
-    #        listTokens.append(token)
-    #        print("token= %s , lexema= (%s), linha= %s" % (listTokens[len(listTokens)-1].msg, listTokens[len(listTokens)-1].lexema, listTokens[len(listTokens)-1].linha))
-    #        
-    #        if(listTokens[len(listTokens)-1].const == TokensClass.TokensClass.FIMARQ[0]):
-    #            break
-    #    
-    #    arq = self.arquivo.fecharArquivo()
-    #    return listTokens

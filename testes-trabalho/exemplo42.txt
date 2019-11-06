@@ -1,0 +1,22 @@
+PROGRAMA exemplo42;
+VARIAVEIS x,y,w: INTEIRO;  
+          c:   CARACTER;
+          b:   LOGICO; 
+{
+  
+    LEIA(y ) ;
+    y:=x  // ausencia de ponto e virgula
+    b:=2 > 3;
+    ENQUANTO(x > y ) 
+    { 
+        SE (b)
+	{
+          y:=2 + y > 3; //naum ah erro sintatico, pode haver erro semantico
+        }
+	SENAO  
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

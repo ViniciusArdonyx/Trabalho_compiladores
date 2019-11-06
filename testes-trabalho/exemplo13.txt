@@ -1,0 +1,8 @@
+//Programa com erros nas linhas 6,7 e 8
+PROGRAMA exemplo13; 
+{
+   /*comentario /*certo*/
+   x:=10.0;
+   y:=10,0;  //erro: ou falta ID ou esperando ; e naum ,
+   ; // erro: naum deveria ter o ;
+}; // erro: naum deveria ter o ;

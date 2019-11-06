@@ -1,0 +1,5 @@
+//erro: sem programa principal
+PROGRAMA exemplo27;
+VARIAVEIS x,y,w: INTEIRO; 
+          c:   CARACTER;
+          b:   LOGICO;

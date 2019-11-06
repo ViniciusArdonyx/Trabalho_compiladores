@@ -1,0 +1,26 @@
+PROGRAMA exemplo32;
+VARIAVEIS x,y,w INTEIRO;  // erro: ausencia do dois pontos apos o ID w 
+          c:   CARACTER;
+          r:   ; // erro sintatico: faltando o tipo do identificador - linha 4
+	  b   LOGICO; // erro: ausencia do dois pontos apos o ID b
+{
+  
+    LEIA( );//erro sintatico: LEIA sem argumentos 
+    y:=x  // faltando ;
+    b:=VERDADEIRO;
+    ENQUANTO(b)  
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+        }
+        SENAO
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}
+/*Nao deve existir nada alem de comentario apos o fim do programa,logo esta frase pode existir*/ 
+Nao deve existir nada diferente de comentario apos o fim do
+programa

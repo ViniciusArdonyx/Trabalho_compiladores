@@ -1,0 +1,5 @@
+PROGRAMA ; //erro: faltando ID
+{
+    ESCREVA ("tESTANTO")  //erro: faltando o ;
+
+}

@@ -1,0 +1,18 @@
+PROGRAMA exemplo40;
+VARIAVEIS x,y,w: INTEIRO;  
+          c:   CARACTER;
+          b:   LOGICO; 
+{
+  
+    LEIA(y ); 
+    y:=x;  
+    b:=VERDADEIRO;
+    ENQUANTO(x > y > w) operadores de comparacao nao podem ser usados em sequencia
+    { 
+        SENAO  // erro: SENAO sem o SE
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

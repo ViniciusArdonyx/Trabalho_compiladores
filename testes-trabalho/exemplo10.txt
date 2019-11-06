@@ -1,0 +1,30 @@
+
+
+
+
+
+
+/*Programa correto, porem com erro sintatico*/
+PROGRAMA exemplo10;
+VARIAVEIS 4x,y: INTEIRO; /* comentario de bloco contendo ****, pore correto*/
+          c:   CARACTER;
+          r:   REAL;
+	  bool:   LOGICO;
+{
+    ESCREVA("Digite um numero:");
+    LEIA(x);
+    y:=x;
+    b:=VERDADEIRO  // erro: ausencia de ponto e virgula - linha 16
+    ENQUANTO(b) ; // erro: aqui na existe esse ponto e virgula - linha 17
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+             // erro: faltou fechar a chave - linha 22
+        SENAO
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

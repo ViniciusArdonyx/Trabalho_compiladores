@@ -1,0 +1,21 @@
+PROGRAMA exemplo35;
+VARIAVEIS x,y,w: INTEIRO; 
+          c:   CARACTER;
+          b:   LOGICO // erro sintatico:  ausencia de ponto e virgula
+{
+    ESCREVA() // erro sintatico:  ausencia de ponto e virgula  
+    y:=x // erro sintatico:  ausencia de ponto e virgula 
+    b:=VERDADEIRO // erro sintatico:  ausencia de ponto e virgula
+    ENQUANTO(b)  
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+        }
+        SENAO
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

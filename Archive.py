@@ -5,9 +5,6 @@
 # ------------------------------------------------ #
 #
 
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 from os import path
 
 class Archive:

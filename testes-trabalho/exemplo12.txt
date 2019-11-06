@@ -1,0 +1,5 @@
+//Programa correto 
+PROGRAMA exemplo12; 
+{
+   ESCREVA ("TEste"); 
+}

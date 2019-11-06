@@ -1,0 +1,24 @@
+PROGRAMA exemplo8;
+VARIAVEIS x,y: INTEIRO; /* comentario de bloco aberto e fechado*/
+          c:   CARACTER;
+          r:   REAL;
+	  bool:   LOGICO;
+{
+    ESCREVA("Digite um numero:");
+    LEIA(x);
+    y:=x;
+    b:=VERDADEIRO;
+    r:=10.346;
+    ENQUANTO(b)  
+    { 
+        SE(y>10); //erro sintatico, naum tem ponto e virgula aqui (linha 14)
+        { 
+             ESCREVA(y);
+        }
+        SENAO (teste) //no comando SENAO nao existe condicao;
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

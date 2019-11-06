@@ -1,0 +1,8 @@
+//Programa com erro : ausencia de codigo
+PROGRAMA exemplo26; 
+{
+   /****/
+   
+
+    
+}

@@ -1,0 +1,23 @@
+PROGRAMA exemplo18;
+VARIAVEIS x,y,: INTEIRO; // erro sintatico: deveria ter um ID depois da ,
+          c:   ; // erro sintatico: ausencia do tipo do identificador
+          r:  REAL ; 
+	  b:   LOGICO;
+{
+    ESCREVA("Digite um numero:",); //erro sintatico: , seguida de ) em ESCREVA 
+    LEIA(x);
+    y:=x;
+    b:=VERDADEIRO;
+    ENQUANTO(b)  
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+        }
+        SENAO
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

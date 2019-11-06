@@ -1,0 +1,4 @@
+PROGRAMA exemplo9; 
+{
+    ESCREVA ("tESTANTO")  //erro: faltando o ;
+}

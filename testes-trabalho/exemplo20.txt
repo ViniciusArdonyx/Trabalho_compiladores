@@ -1,0 +1,21 @@
+PROGRAMA exemplo20;
+VARIAVEIS x,y: INTEIRO; 
+          b:   LOGICO;
+{
+    ESCREVA("Digite um numero:"); 
+    LEIA(x,); //erro sintatico: , seguida de ) em LEIA
+    y:=x;
+    b:=VERDADEIRO;
+    ENQUANTO(b)  
+    { 
+        SE(y>10)
+        { 
+             ESCREVA(y);
+        }
+        SENAO
+        {
+             y:=y+3;
+             b:=FALSO;
+        }
+     }
+}

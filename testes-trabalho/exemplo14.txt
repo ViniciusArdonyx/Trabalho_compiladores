@@ -1,0 +1,7 @@
+//Programa com erro na linha 6 
+PROGRAMA exemplo14; 
+{
+   /*comentario /*certo*/
+   
+   ; // erro: naum deveria ter o ;
+}
