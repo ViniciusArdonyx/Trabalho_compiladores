@@ -54,7 +54,7 @@ if __name__ == "__main__":
             codeFile = param[1]
             fileTable = str(param[3])
             blocoPrincipal(codeFile, fileTable)
-        else:
+        else: # Se nao for o parametro '-t', apresenta a mensagem de erro
             print(msgError)
             exit()
     else:
