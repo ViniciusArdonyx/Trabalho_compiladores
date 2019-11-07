@@ -12,7 +12,7 @@
 ##  python3 main.py codigo_fonte.txt –t nomearquivo.txt
 
 import sys
-import TabelaDeSimbolos
+import Archive
 import Lexico
 import Sintatico
 
@@ -26,7 +26,7 @@ def blocoPrincipal(codeFile, fileTable):
         lexico = Lexico.Lexico()
         sintatico = Sintatico.Sintatico(lexico, codeFile)
         parser = sintatico.parser()
-        tabela = TabelaDeSimbolos.TabelaDeSimbolos(fileTable)
+        tabela = Archive.Archive(None, fileTable)
         listReserv = []
         aux = []
 

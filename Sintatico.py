@@ -82,7 +82,7 @@ class Sintatico:
         self.tokenAtual = None
         self.analisadorLexico = lexico
         self.tokenList = TokensClass.TokensClass()
-        self.arquivo = Archive.Archive(nomeArquivo)
+        self.arquivo = Archive.Archive(nomeArquivo, None)
         self.listIdent = []
         self.listTipo = []
         self.listLinha = []
