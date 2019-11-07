@@ -177,7 +177,6 @@ class Sintatico:
         self.arquivo.arquivo = self.arquivo.abrirArquivo()
 
         (self.tokenAtual, self.linha) = self.analisadorLexico.getToken(self.arquivo.arquivo, self.linha)
-        #self.tabela.inserirNaTabela(self.tokenAtual.const, self.tokenAtual)
         self.a()
 
         self.arquivo.arquivo = self.arquivo.fecharArquivo()
