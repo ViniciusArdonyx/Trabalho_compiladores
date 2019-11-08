@@ -99,10 +99,17 @@ class Lexico:
             elif(estado == 4): # Estado para tratar cadeia de caracter entre ""
                 lexema += carct
                 (carct, linha) = self.getChar(arq, linha)
-
-                if((carct is None) or (carct == '"')):#(carct == ')')):
-                    #self.ungetChar(carct)
+                
+                while(not(carct is None) and (carct != '\n') and (carct != '"')):
+                    lexema += carct
+                    (carct, linha) = self.getChar(arq,linha)
+                
+                if(carct == '"'):
+                    lexema += carct
                     return (Token.Token(TokensClass.TokensClass.CADEIA, lexema, linha), linha)
+                else:
+                    lexema = ''
+                    estado = 1
             elif(estado == 5): # Estado para tratar outros tokens primitivos
                 lexema += carct
                 
@@ -147,16 +154,24 @@ class Lexico:
                         
                         lexema = ''
                         estado = 1
+                    elif(carct == '*'): # Para tratar comentarios de bloco
+                        (carct, linha) = self.getChar(arq,linha)
 
-                    # elif(carct == '*'): # Para tratar comentarios de bloco
-                    #     while(not(carct is None) and (carct != '*')):
-                    #         (carct, linha) = self.getChar(arq,linha)
-                    #
-                    #     while(not(carct is None) and (carct != '/')):
-                    #         (carct, linha) = self.getChar(arq,linha)
-                    #
-                    #     lexema = ''
-                    #     estado = 1
+                        while(not(carct is None) and (carct != '*')):
+                            (carct, linha) = self.getChar(arq,linha)
+
+                            if(carct == ''):
+                                    break
+
+                        if(carct == '*'):
+                            while(not(carct is None) and(carct != '/')):
+                                (carct, linha) = self.getChar(arq,linha)
+
+                                if(carct == ''):
+                                    break
+                        
+                        lexema = ''
+                        estado = 1
                     else:
                         self.ungetChar(carct)
                         return (Token.Token(TokensClass.TokensClass.OPMUL, lexema, linha), linha)
